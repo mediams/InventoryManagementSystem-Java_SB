@@ -41,6 +41,10 @@ public class UserDTO {
 
     private UserRole role;
 
+    private List<TransactionDTO> transactions;
+
+    private String password;
+
     private List<UUID> transactionIds;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

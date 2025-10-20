@@ -29,7 +29,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                 request.getUserPrincipal(),
                 request.getRequestURI());
 
-        ResponseDTO<Object> errorResponse = ResponseDTO.builder()
+        ResponseDTO errorResponse = ResponseDTO.builder()
                 .status(HttpStatus.FORBIDDEN.value())
                 .message("You do not have permission to access this resource.")
                 .build();

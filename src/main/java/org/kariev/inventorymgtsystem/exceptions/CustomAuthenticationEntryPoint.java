@@ -27,7 +27,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         log.warn("Unauthorized access attempt: {}", authException.getMessage());
 
-        ResponseDTO<Object> errorResponse = ResponseDTO.builder()
+        ResponseDTO errorResponse = ResponseDTO.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .message("Unauthorized access. Please login to continue.")
                 .build();

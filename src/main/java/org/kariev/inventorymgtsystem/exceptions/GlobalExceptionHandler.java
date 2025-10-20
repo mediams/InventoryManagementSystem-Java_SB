@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDTO<Object>> handleException(Exception ex) {
-        ResponseDTO<Object> responseDTO = ResponseDTO.builder()
+    public ResponseEntity<ResponseDTO> handleException(Exception ex) {
+        ResponseDTO responseDTO = ResponseDTO.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ex.getMessage())
                 .build();
@@ -20,8 +20,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ResponseDTO<Object>> handleNotFoundException(Exception ex) {
-        ResponseDTO<Object> responseDTO = ResponseDTO.builder()
+    public ResponseEntity<ResponseDTO> handleNotFoundException(Exception ex) {
+        ResponseDTO responseDTO = ResponseDTO.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(ex.getMessage())
                 .build();
@@ -30,8 +30,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NameValueRequiredException.class)
-    public ResponseEntity<ResponseDTO<Object>> handleNameValueRequiredException(Exception ex) {
-        ResponseDTO<Object> responseDTO = ResponseDTO.builder()
+    public ResponseEntity<ResponseDTO> handleNameValueRequiredException(Exception ex) {
+        ResponseDTO responseDTO = ResponseDTO.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(ex.getMessage())
                 .build();
@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ResponseDTO<Object>> handleInvalidCredentialsException(Exception ex) {
-        ResponseDTO<Object> responseDTO = ResponseDTO.builder()
+    public ResponseEntity<ResponseDTO> handleInvalidCredentialsException(Exception ex) {
+        ResponseDTO responseDTO = ResponseDTO.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(ex.getMessage())
                 .build();

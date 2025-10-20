@@ -32,15 +32,12 @@ public class JwtUtils {
         this.clockSkewSeconds = clockSkewSeconds;
     }
 
-    public String generateToken(UserDetails user) {
-        Date now = new Date();
-        Date exp = new Date(now.getTime() + expirationMillis);
-
+    public String generateToken(String email) {
         return Jwts.builder()
-                .subject(normalize(user.getUsername()))
-                .issuedAt(now)
-                .expiration(exp)
-                .signWith(secretKey, Jwts.SIG.HS256)
+                .subject(email)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expirationMillis))
+                .signWith(secretKey)
                 .compact();
     }
 

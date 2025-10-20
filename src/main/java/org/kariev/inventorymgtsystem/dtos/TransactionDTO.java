@@ -1,9 +1,17 @@
 package org.kariev.inventorymgtsystem.dtos;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.kariev.inventorymgtsystem.enums.TransactionStatus;
 import org.kariev.inventorymgtsystem.enums.TransactionType;
 
@@ -49,8 +57,10 @@ public class TransactionDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
 
-    private UUID userId;
     private UUID supplierId;
+
+    private UserDTO user;
+    private SupplierDTO supplier;
 
     @NotNull
     @Size(min = 1, message = "At least one item is required")
