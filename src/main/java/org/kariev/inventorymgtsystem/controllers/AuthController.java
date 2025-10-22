@@ -2,6 +2,7 @@ package org.kariev.inventorymgtsystem.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.kariev.inventorymgtsystem.dtos.LoginRequestDTO;
 import org.kariev.inventorymgtsystem.dtos.RegisterRequestDTO;
 import org.kariev.inventorymgtsystem.dtos.ResponseDTO;
 import org.kariev.inventorymgtsystem.services.UserService;
@@ -23,8 +24,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody @Valid RegisterRequestDTO request) {
-        return ResponseEntity.ok(service.registerUser(request));
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody @Valid LoginRequestDTO request) {
+        return ResponseEntity.ok(service.loginUser(request));
     }
 
 }

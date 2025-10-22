@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User userToSave = User.builder()
+                .phoneNumber(dto.getPhoneNumber())
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
@@ -123,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
         User existingUser = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (dto.getEmail() != null) existingUser.setEmail(dto.getEmail());
-        if (dto.getPhoneNumber() != null) existingUser.setPhoneNumber(dto.getPhoneNumber());
+//        if (dto.getPhoneNumber() != null) existingUser.setPhoneNumber(dto.getPhoneNumber());
         if (dto.getName() != null) existingUser.setName(dto.getName());
         if (dto.getRole() != null) existingUser.setRole(dto.getRole());
 
