@@ -5,9 +5,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.lang.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +31,10 @@ public class AuthFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+        log.debug("AuthFilter hit: method={}, uri={}, authHeaderPresent={}",
+                request.getMethod(),
+                request.getRequestURI(),
+                request.getHeader("Authorization") != null);
 
         String token = resolveToken(request);
 
@@ -38,6 +42,7 @@ public class AuthFilter extends OncePerRequestFilter {
             String username = null;
             try {
                 username = jwtUtils.extractUsername(token);
+                log.debug("Token present: {}, username: {}", StringUtils.hasText(token), username);
             } catch (JwtException | IllegalArgumentException e) {
                 log.debug("JWT parse/verify failed: {}", e.getMessage());
             }

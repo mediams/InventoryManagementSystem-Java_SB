@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(
         componentModel = "spring",
         uses = {TransactionMapper.class},
-        unmappedTargetPolicy = ReportingPolicy.WARN // чтобы видеть предупреждения
+        unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface UserMapper {
 

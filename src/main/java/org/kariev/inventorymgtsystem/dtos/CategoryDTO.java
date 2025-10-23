@@ -18,6 +18,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDTO {
 
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @NotBlank(message = "Name is required")
