@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -67,6 +64,6 @@ public class TransactionDTO {
     @Valid
     private List<TransactionItemDTO> items;
 
-    @Size(max = 3, message = "Currency must be 3-letter ISO code")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency must be 3-letter ISO code (A–Z)")
     private String currency;
 }

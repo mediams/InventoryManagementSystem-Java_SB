@@ -43,6 +43,7 @@ public class UserDTO {
 
     private List<TransactionDTO> transactions;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private List<UUID> transactionIds;

@@ -7,14 +7,14 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 import org.kariev.inventorymgtsystem.enums.TransactionStatus;
 import org.kariev.inventorymgtsystem.enums.TransactionType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +24,7 @@ import java.util.UUID;
                 @Index(name = "idx_tx_product", columnList = "product_id"),
                 @Index(name = "idx_tx_user", columnList = "user_id"),
                 @Index(name = "idx_tx_supplier", columnList = "supplier_id"),
-                @Index(name = "idx_tx_created_at", columnList = "creationDate")
+                @Index(name = "idx_tx_creation_date", columnList = "creation_date")
         }
 )
 @Getter @Setter
@@ -72,11 +72,11 @@ public class Transaction {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime creationDate;
+    private Instant creationDate;
 
     @UpdateTimestamp
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
