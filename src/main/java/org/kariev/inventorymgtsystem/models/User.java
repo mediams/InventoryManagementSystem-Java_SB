@@ -47,9 +47,12 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Column(nullable = false, length = 72)
+    @Column(name = "password", nullable = false, length = 60)
     @ToString.Exclude
     private String password;
+
+    @Column(name = "password_hash", nullable = false, length = 60)
+    private String passwordHash;
 
     @NotBlank(message = "PhoneNumber is required")
     @Column(nullable = false, length = 32)

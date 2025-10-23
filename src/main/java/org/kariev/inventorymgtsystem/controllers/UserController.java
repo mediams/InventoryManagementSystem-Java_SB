@@ -19,32 +19,32 @@ public class UserController {
     private final UserService service;
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> getUsers() {
         return ResponseEntity.ok(service.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> getUserById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getUserById(id));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable UUID id, @Valid @RequestBody UserDTO user) {
         return ResponseEntity.ok(service.updateUser(id, user));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         service.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/transactions")
-    @PreAuthorize("hasAuthority('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> getUserTransactions(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getUserTransactions(id));
     }
