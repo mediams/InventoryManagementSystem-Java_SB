@@ -10,7 +10,6 @@ import java.util.List;
 
 @Mapper(
         componentModel = "spring",
-        uses = {TransactionMapper.class},
         unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface CategoryMapper {

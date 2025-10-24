@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseDTO updateCategoryById(UUID id, CategoryDTO dto) {
         Category existingCategory = repository.findById(id).orElseThrow(() -> new NotFoundException("Category not found"));
-        existingCategory.setName(dto.getName());
+        if (dto.getName() != null) existingCategory.setName(dto.getName());
 
         repository.save(existingCategory);
 
