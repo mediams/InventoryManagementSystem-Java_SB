@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,21 +30,24 @@ public class SupplierServiceImpl implements SupplierService {
     public ResponseDTO createSupplier(SupplierDTO dto) {
 
         Supplier supplier = mapper.dtoToEntity(dto);
-        repository.save(mapper.entityToDto(supplier));
+        repository.save(supplier);
         return ResponseDTO.builder()
                 .status(200)
                 .message("Supplier created")
                 .build();
     }
 
+    @Transactional
     @Override
     public ResponseDTO updateSupplierById(UUID id, SupplierDTO dto) {
+        Supplier supplier = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Supplier not found"));
 
-        Supplier supplier = repository.findById(id).orElseThrow(() -> new NotFoundException("Supplier not found"));
-        if (dto.getName() != null) supplier.setName(dto.getName());
-        if (dto.getContactInfo() != null) supplier.setContactInfo(dto.getContactInfo());
-        if (dto.getAddress() != null) supplier.setAddress(dto.getAddress());
-        repository.save(mapper.entityToDto(supplier));
+        mapper.updateEntityFromDto(dto, supplier);
+
+        supplier.setUpdatedAt(LocalDateTime.now());
+
+        repository.save(supplier);
 
         return ResponseDTO.builder()
                 .status(200)
@@ -54,11 +58,12 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public ResponseDTO getSupplierById(UUID id) {
         Supplier supplier = repository.findById(id).orElseThrow(() -> new NotFoundException("Supplier not found"));
-        repository.save(mapper.entityToDto(supplier));
+        SupplierDTO dto = mapper.entityToDto(supplier);
 
         return ResponseDTO.builder()
                 .status(200)
                 .message("Supplier found")
+                .supplier(dto)
                 .build();
     }
 
