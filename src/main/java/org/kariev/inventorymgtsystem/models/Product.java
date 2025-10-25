@@ -1,7 +1,10 @@
 package org.kariev.inventorymgtsystem.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -39,7 +42,7 @@ public class Product {
     private String name;
 
     @NotBlank(message = "SKU is required")
-    @Pattern(regexp = "^[A-Z0-9-]+$", message = "SKU may contain A-Z, 0-9 and '-'")
+//    @Pattern(regexp = "^[A-Z0-9-]+$", message = "SKU may contain A-Z, 0-9 and '-'")
     @Column(nullable = false, unique = true, length = 32)
     @ToString.Include
     private String sku;

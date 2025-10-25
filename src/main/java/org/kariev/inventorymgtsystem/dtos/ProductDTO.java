@@ -37,7 +37,7 @@ public class ProductDTO {
     private String name;
 
     @Size(max = 64, message = "SKU must be ≤ 64 characters")
-    @Pattern(regexp = "^[A-Z0-9-]{3,32}$", message = "SKU format is invalid")
+//    @Pattern(regexp = "^[A-Z0-9-]{3,32}$", message = "SKU format is invalid")
     private String sku;
 
     @NotNull(message = "Price is required")

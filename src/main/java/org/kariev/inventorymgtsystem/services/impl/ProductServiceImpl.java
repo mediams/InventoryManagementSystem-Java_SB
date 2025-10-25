@@ -32,8 +32,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper mapper;
     private final CategoryRepository categoryRepository;
 
-    private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\images\\";
-
     @Override
     public ResponseDTO getProductById(UUID uuid) {
 
@@ -74,7 +72,13 @@ public class ProductServiceImpl implements ProductService {
             productToSave.setImageUrl(imagePath);
         }
 
-        repository.save(productToSave);
+        try {
+            repository.save(productToSave);
+            log.info("Product successfully saved: {}", productToSave);
+        } catch (Exception e) {
+            log.error("Error saving product to the database", e);
+            throw new RuntimeException("Could not commit JPA transaction", e);
+        }
 
         return ResponseDTO.builder()
                 .status(200)
@@ -150,45 +154,49 @@ public class ProductServiceImpl implements ProductService {
 
     private String saveImage(MultipartFile imageFile) {
         String contentType = imageFile.getContentType();
+        log.info("Received file with content type: {}", contentType);  // Логируем тип контента файла
+
         if (!Objects.equals(contentType, "image/jpeg") &&
                 !Objects.equals(contentType, "image/png") &&
                 !Objects.equals(contentType, "image/gif") ||
                 imageFile.getSize() > 1024 * 1024) {
+            log.error("Invalid image type or size is too large (must be <= 1MB)");
             throw new IllegalArgumentException("Invalid image type");
         }
 
-        File dir = new File(IMAGE_DIRECTORY);
-        if (!dir.exists()) {
-            boolean created = dir.mkdirs();
+        // Создаём директорию для изображений в рабочем каталоге проекта или используем временную директорию
+        Path dir = Paths.get(System.getProperty("user.home"), "images"); // Пример с пользовательской папкой
+        File imageDir = dir.toFile();
+
+        if (!imageDir.exists()) {
+            boolean created = imageDir.mkdirs();
             if (created) {
-                log.info("Image directory created successfully");
+                log.info("Image directory created successfully at {}", dir);
             } else {
-                log.warn("Failed to create image directory");
+                log.warn("Failed to create image directory at {}", dir);
             }
+        } else {
+            log.info("Image directory already exists at {}", dir);
         }
 
         String originalFileName = imageFile.getOriginalFilename();
         String safeFileName = Objects.requireNonNull(originalFileName, "File name cannot be null")
                 .replaceAll("[^a-zA-Z0-9.-]", "_");
-
+        log.info("Original file name: {}, Safe file name: {}", originalFileName, safeFileName);
 
         String uniqueFileName = UUID.randomUUID() + "_" + safeFileName;
-        String imageFilePath = IMAGE_DIRECTORY + uniqueFileName;
+        Path imageFilePath = dir.resolve(uniqueFileName);  // Сохраняем изображение в новой директории
+        log.info("Saving image to path: {}", imageFilePath);
 
         try {
-            Path path = Paths.get(imageFilePath).toRealPath();
-            File destinationFile = new File(path.toString());
-
-            if (!destinationFile.getCanonicalPath().startsWith(new File(IMAGE_DIRECTORY).getCanonicalPath())) {
-                throw new IllegalArgumentException("Invalid file path");
-            }
-
-            imageFile.transferTo(destinationFile);
+            imageFile.transferTo(imageFilePath.toFile());  // Сохраняем файл
+            log.info("Image successfully saved to: {}", imageFilePath.toAbsolutePath());
         } catch (Exception e) {
+            log.error("Error while saving image", e);  // Логируем ошибку с полным стеком исключений
             throw new IllegalArgumentException("Could not save image file", e);
         }
 
-        return imageFilePath;
+        return imageFilePath.toString();
     }
 
 }
