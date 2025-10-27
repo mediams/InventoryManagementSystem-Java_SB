@@ -58,6 +58,7 @@ public class TransactionDTO {
 
     private UserDTO user;
     private SupplierDTO supplier;
+    private ProductDTO product;
 
     @NotNull
     @Size(min = 1, message = "At least one item is required")
