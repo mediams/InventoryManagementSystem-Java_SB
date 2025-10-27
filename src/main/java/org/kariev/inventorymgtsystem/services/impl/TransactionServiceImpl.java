@@ -81,18 +81,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public ResponseDTO sellTransaction(TransactionRequestDTO dto) {
+        UUID supplierId = dto.getSupplierId();
         UUID productId = dto.getProductId();
         Integer qtyBoxed = dto.getQuantity();
 
         if (productId == null) throw new NameValueRequiredException("Product id is required");
+        if (supplierId == null) throw new NameValueRequiredException("Supplier id is required");
+
         if (qtyBoxed == null || qtyBoxed <= 0) throw new NameValueRequiredException("Quantity must be > 0");
         int quantity = qtyBoxed;
 
         var product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
         var user = userService.getCurrentUser();
+        var supplier = supplierRepository.findById(supplierId).orElseThrow(() -> new NotFoundException("Supplier not found"));
 
-        // Сначала проверяем достаточность остатков
         if (product.getStockQuantity() < quantity)
             throw new IllegalArgumentException("Not enough stock");
 
@@ -103,6 +106,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .transactionType(TransactionType.SALE)
                 .status(TransactionStatus.COMPLETED)
                 .product(product)
+                .supplier(supplier)
                 .user(user)
                 .totalProducts(quantity)
                 .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))
@@ -144,10 +148,15 @@ public class TransactionServiceImpl implements TransactionService {
                 .user(user)
                 .supplier(supplier)
                 .totalProducts(quantity)
-                .totalPrice(BigDecimal.ZERO)
+                .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))
                 .note(dto.getNote())
                 .build();
-        repository.save(transaction);
+        try {
+            repository.saveAndFlush(transaction);
+        } catch (Exception e) {
+            log.error("Save transaction failed", e);
+            throw e;
+        }
 
         return ResponseDTO.builder().status(200).message("Transaction returned").build();
     }

@@ -28,7 +28,6 @@ public class TransactionDTO {
     @NotNull
     private UUID id;
 
-    @NotNull(message = "Transaction type is required")
     private TransactionType transactionType;
 
     @NotNull(message = "Status is required")

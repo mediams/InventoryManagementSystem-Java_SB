@@ -33,13 +33,14 @@ public class TransactionController {
         return ResponseEntity.ok(service.returnToSupplierTransaction(request));
     }
 
-    @GetMapping()
-    public ResponseEntity<ResponseDTO> getAll(
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDTO> getAllTransactions(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "1000") int size,
-            @RequestParam(required = false) String search
-    ) {
-        return ResponseEntity.ok(service.getAllTransactions(page, size, search));
+            @RequestParam(required = false) String filter) {
+
+        System.out.println("SEARCH VALUE IS: " +filter);
+        return ResponseEntity.ok(service.getAllTransactions(page, size, filter));
     }
 
     @GetMapping("/{id}")
@@ -47,7 +48,7 @@ public class TransactionController {
         return ResponseEntity.ok(service.getTransactionById(id));
     }
 
-    @GetMapping("/by-month-and-year")
+    @GetMapping("/by-month-year")
     public ResponseEntity<ResponseDTO> getAllTransactionsByMonthAndYear(
             @RequestParam int month,
             @RequestParam int year
