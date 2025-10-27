@@ -169,11 +169,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         List<TransactionDTO> transactionDTOS = mapper.entityToListDto(transactionPage.getContent());
 
-        transactionDTOS.forEach(transactionDTO -> {
-            transactionDTO.setUser(null);
-            transactionDTO.setProduct(null);
-            transactionDTO.setSupplier(null);
-        });
+//        transactionDTOS.forEach(transactionDTO -> {
+//            transactionDTO.setUser(null);
+//            transactionDTO.setProduct(null);
+//            transactionDTO.setSupplier(null);
+//        });
 
         return ResponseDTO.builder()
                 .status(200)
@@ -191,14 +191,15 @@ public class TransactionServiceImpl implements TransactionService {
 
         TransactionDTO transactionDTO = mapper.entityToDto(transaction);
 
-        transactionDTO.setUser(null);
-        transactionDTO.setProduct(null);
-        transactionDTO.setSupplier(null);
+//        transactionDTO.setUser(null);
+//        transactionDTO.setProduct(null);
+//        transactionDTO.setSupplier(null);
 
         return ResponseDTO.builder()
                 .status(200)
                 .message("success")
                 .transaction(transactionDTO)
+                .product(transactionDTO.getProduct())
                 .build();
     }
 
