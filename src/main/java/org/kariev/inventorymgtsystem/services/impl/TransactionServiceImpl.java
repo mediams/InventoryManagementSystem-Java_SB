@@ -199,6 +199,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .status(200)
                 .message("success")
                 .transaction(transactionDTO)
+                .product(transactionDTO.getProduct())
                 .build();
     }
 
