@@ -22,6 +22,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDTO {
 
+    @NotNull
     private UUID id;
 
     @NotNull(message = "categoryId is required")
@@ -30,6 +31,7 @@ public class ProductDTO {
     @Size(max = 64, message = "Internal code must be ≤ 64 characters")
     private String internalCode;
 
+    @NotNull
     private UUID supplierId;
 
     @NotBlank(message = "Name is required")

@@ -25,6 +25,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDTO {
 
+    @NotNull
     private UUID id;
 
     @NotNull(message = "Transaction type is required")
@@ -54,10 +55,12 @@ public class TransactionDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
 
+    @NotNull
     private UUID supplierId;
 
     private UserDTO user;
     private SupplierDTO supplier;
+    private ProductDTO product;
 
     @NotNull
     @Size(min = 1, message = "At least one item is required")

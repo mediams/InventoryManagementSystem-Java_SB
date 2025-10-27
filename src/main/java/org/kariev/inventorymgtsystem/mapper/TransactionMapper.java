@@ -5,6 +5,8 @@ import org.kariev.inventorymgtsystem.models.Transaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
 
@@ -13,5 +15,8 @@ public interface TransactionMapper {
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     TransactionDTO entityToDto(Transaction entity);
+
+
+    List<TransactionDTO> entityToListDto(List<Transaction> transactions);
 
 }
