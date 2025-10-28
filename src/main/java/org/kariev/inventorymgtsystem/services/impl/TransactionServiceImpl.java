@@ -10,6 +10,7 @@ import org.kariev.inventorymgtsystem.enums.TransactionType;
 import org.kariev.inventorymgtsystem.exceptions.NameValueRequiredException;
 import org.kariev.inventorymgtsystem.exceptions.NotFoundException;
 import org.kariev.inventorymgtsystem.mapper.TransactionMapper;
+import org.kariev.inventorymgtsystem.mapper.UserMapper;
 import org.kariev.inventorymgtsystem.models.Transaction;
 import org.kariev.inventorymgtsystem.repositories.ProductRepository;
 import org.kariev.inventorymgtsystem.repositories.SupplierRepository;
@@ -38,6 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository repository;
     private final TransactionMapper mapper;
+    private final UserMapper userMapper;
     private final ProductRepository productRepository;
     private final SupplierRepository supplierRepository;
     private final UserService userService;
@@ -67,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .transactionType(TransactionType.PURCHASE)
                 .status(TransactionStatus.COMPLETED)
                 .product(product)
-                .user(user)
+                .user(userMapper.dtoToEntity(user))
                 .supplier(supplier)
                 .totalProducts(quantity)
                 .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))
@@ -107,7 +109,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .status(TransactionStatus.COMPLETED)
                 .product(product)
                 .supplier(supplier)
-                .user(user)
+                .user(userMapper.dtoToEntity(user))
                 .totalProducts(quantity)
                 .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))
                 .description(dto.getDescription())
@@ -145,7 +147,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .transactionType(TransactionType.RETURN_TO_SUPPLIER)
                 .status(TransactionStatus.PROCESSING)
                 .product(product)
-                .user(user)
+                .user(userMapper.dtoToEntity(user))
                 .supplier(supplier)
                 .totalProducts(quantity)
                 .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))

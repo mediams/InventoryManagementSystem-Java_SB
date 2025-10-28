@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-
     @Override
     public ResponseDTO loginUser(LoginRequestDTO dto) {
 
@@ -94,12 +93,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getCurrentUser() {
+    public UserDTO getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = repository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setTransactions(null);
-        return user;
+        return mapper.entityToDto(user);
     }
 
     @Override
@@ -170,6 +169,5 @@ public class UserServiceImpl implements UserService {
                 .user(userDTO)
                 .build();
     }
-
 
 }

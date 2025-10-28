@@ -43,9 +43,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/transactions")
+    @GetMapping("/transactions/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> getUserTransactions(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getUserTransactions(id));
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        return ResponseEntity.ok(service.getCurrentUser());
     }
 }

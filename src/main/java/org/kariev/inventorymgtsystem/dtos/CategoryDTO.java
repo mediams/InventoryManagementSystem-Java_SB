@@ -28,5 +28,5 @@ public class CategoryDTO {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Builder.Default
-    private List<ProductBriefDTO> products = new ArrayList<>();
+    private List<ProductDTO> products = new ArrayList<>();
 }

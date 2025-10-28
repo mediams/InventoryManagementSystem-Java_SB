@@ -16,13 +16,12 @@ import java.util.List;
 )
 public interface ProductMapper {
     @Mapping(target = "creationDate", ignore = true)
-    @Mapping(target = "category", ignore = true)
     Product dtoToEntity(ProductDTO dto);
 
     List<ProductDTO> entityToListDto(List<Product> products);
 
+    @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "createdAt", source = "creationDate")
-    @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "supplierId", ignore = true)
     @Mapping(target = "internalCode", ignore = true)
     ProductDTO entityToDto(Product product);

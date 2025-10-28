@@ -20,4 +20,8 @@ public interface UserMapper {
     UserDTO entityToDto(User entity);
 
     List<UserDTO> entityListToDto(List<User> entities);
+
+    @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    User dtoToEntity(UserDTO user);
 }
