@@ -12,6 +12,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -73,7 +74,7 @@ public class Product {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime creationDate;
+    private Instant creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)

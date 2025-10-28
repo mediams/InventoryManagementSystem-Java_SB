@@ -13,12 +13,14 @@ import java.util.List;
 )
 public interface SupplierMapper {
 
-    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Supplier dtoToEntity(SupplierDTO dto);
 
     SupplierDTO entityToDto(Supplier supplier);
 
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(SupplierDTO dto, @MappingTarget Supplier entity);
 

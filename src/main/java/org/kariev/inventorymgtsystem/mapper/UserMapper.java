@@ -15,8 +15,9 @@ import java.util.List;
 )
 public interface UserMapper {
 
+    @Mapping(target = "createdAt", source = "creationDate")
     @Mapping(target = "transactionIds", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
     UserDTO entityToDto(User entity);
+
     List<UserDTO> entityListToDto(List<User> entities);
 }

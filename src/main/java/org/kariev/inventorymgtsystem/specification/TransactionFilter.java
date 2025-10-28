@@ -1,14 +1,13 @@
 package org.kariev.inventorymgtsystem.specification;
 
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import org.kariev.inventorymgtsystem.models.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -61,14 +60,11 @@ public final class TransactionFilter {
     }
 
     public static Specification<Transaction> byMonthAndYear(int month, int year) {
-        return (root, query, cb) -> {
-            LocalDate start = LocalDate.of(year, month, 1);
-            LocalDate end = start.plusMonths(1);
-
-            Path<LocalDateTime> createdAt = root.get("createdAt");
-            Predicate gte = cb.greaterThanOrEqualTo(createdAt, start.atStartOfDay());
-            Predicate lt = cb.lessThan(createdAt, end.atStartOfDay());
-            return cb.and(gte, lt);
+        return (root, query, criteriaBuilder) -> {
+            Expression<LocalDate> creationDate = root.get("creationDate");
+            Predicate monthPredicate = criteriaBuilder.equal(criteriaBuilder.function("MONTH", Integer.class, creationDate), month);
+            Predicate yearPredicate = criteriaBuilder.equal(criteriaBuilder.function("YEAR", Integer.class, creationDate), year);
+            return criteriaBuilder.and(monthPredicate, yearPredicate);
         };
     }
 

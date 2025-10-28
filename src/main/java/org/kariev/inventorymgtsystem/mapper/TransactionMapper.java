@@ -15,13 +15,12 @@ public interface TransactionMapper {
 //            @Mapping(target = "supplier", ignore = true),
             @Mapping(target = "items", ignore = true),
             @Mapping(target = "currency", ignore = true),
-            @Mapping(target = "createdAt", ignore = true),
             @Mapping(target = "user", ignore = true),
 //            @Mapping(target = "product", ignore = true),
-            @Mapping(target = "supplierId", ignore = true)
+            @Mapping(target = "supplierId", ignore = true),
+            @Mapping(target = "createdAt", source = "creationDate")
     })
     TransactionDTO entityToDto(Transaction entity);
-
 
     List<TransactionDTO> entityToListDto(List<Transaction> transactions);
 

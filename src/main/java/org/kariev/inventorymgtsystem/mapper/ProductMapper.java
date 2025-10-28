@@ -21,10 +21,10 @@ public interface ProductMapper {
 
     List<ProductDTO> entityToListDto(List<Product> products);
 
+    @Mapping(target = "createdAt", source = "creationDate")
+    @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "supplierId", ignore = true)
     @Mapping(target = "internalCode", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "categoryId", ignore = true)
     ProductDTO entityToDto(Product product);
 
 }
