@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kariev.inventorymgtsystem.dtos.ResponseDTO;
 import org.kariev.inventorymgtsystem.dtos.TransactionRequestDTO;
-import org.kariev.inventorymgtsystem.enums.TransactionStatus;
+import org.kariev.inventorymgtsystem.dtos.UpdateTransactionStatusRequest;
 import org.kariev.inventorymgtsystem.services.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,12 +63,12 @@ public class TransactionController {
         return ResponseEntity.ok(service.getAllTransactionsByMonthAndYear(month, year));
     }
 
-    @PutMapping("/transactionId")
+    @PutMapping("/transactions/{transactionId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> updateTransaction(
-            @RequestParam UUID transactionId,
-            @RequestParam TransactionStatus transactionStatus
+            @PathVariable UUID transactionId,
+            @RequestBody UpdateTransactionStatusRequest req
     ) {
-        return ResponseEntity.ok(service.updateTransaction(transactionId, transactionStatus));
+        return ResponseEntity.ok(service.updateTransaction(transactionId, req.transactionStatus()));
     }
 }
