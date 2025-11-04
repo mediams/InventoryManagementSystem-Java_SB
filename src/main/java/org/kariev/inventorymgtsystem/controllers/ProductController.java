@@ -20,13 +20,11 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> getAllProducts() {
         return ResponseEntity.ok(service.getAllProducts());
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> getProductById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getProductById(id));
     }
@@ -78,13 +76,11 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> deleteProduct(@PathVariable UUID id) {
         return ResponseEntity.ok(service.deleteProduct(id));
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> searchProduct(@RequestParam String input) {
         return ResponseEntity.ok(service.searchProduct(input));
     }

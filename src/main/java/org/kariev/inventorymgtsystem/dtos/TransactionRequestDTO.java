@@ -18,7 +18,6 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionRequestDTO {
 
-    @NotNull(message = "Transaction type is required")
     private TransactionType transactionType;
 
     @NotNull(message = "Product ID is required")

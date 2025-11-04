@@ -25,26 +25,23 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> getUserById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getUserById(id));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable UUID id, @Valid @RequestBody UserDTO user) {
         return ResponseEntity.ok(service.updateUser(id, user));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         service.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/transactions/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> getUserTransactions(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getUserTransactions(id));
     }

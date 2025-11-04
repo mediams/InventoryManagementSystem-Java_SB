@@ -44,6 +44,9 @@ public class TransactionServiceImpl implements TransactionService {
     private final SupplierRepository supplierRepository;
     private final UserService userService;
 
+    private static final UUID DEFAULT_SUPPLIER_ID =
+            UUID.fromString("22222222-2222-2222-2222-222222222001");
+
 
     @Override
     public ResponseDTO purchaseTransaction(TransactionRequestDTO dto) {
@@ -88,7 +91,10 @@ public class TransactionServiceImpl implements TransactionService {
         Integer qtyBoxed = dto.getQuantity();
 
         if (productId == null) throw new NameValueRequiredException("Product id is required");
-        if (supplierId == null) throw new NameValueRequiredException("Supplier id is required");
+        //todo logic
+        if (supplierId == null) {
+            supplierId = DEFAULT_SUPPLIER_ID;
+        }
 
         if (qtyBoxed == null || qtyBoxed <= 0) throw new NameValueRequiredException("Quantity must be > 0");
         int quantity = qtyBoxed;
@@ -188,20 +194,19 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public ResponseDTO getTransactionById(UUID id) {
+        Transaction t = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Transaction not found"));
 
-        Transaction transaction = repository.findById(id).orElseThrow(() -> new NotFoundException("Transaction not found"));
+        TransactionDTO dto = mapper.entityToDto(t);
 
-        TransactionDTO transactionDTO = mapper.entityToDto(transaction);
-
-//        transactionDTO.setUser(null);
-//        transactionDTO.setProduct(null);
-//        transactionDTO.setSupplier(null);
+        if (dto.getUser() == null && t.getUser() != null) {
+            dto.setUser(userMapper.entityToDto(t.getUser()));
+        }
 
         return ResponseDTO.builder()
                 .status(200)
                 .message("success")
-                .transaction(transactionDTO)
-//                .product(transactionDTO.getProduct())
+                .transaction(dto)
                 .build();
     }
 

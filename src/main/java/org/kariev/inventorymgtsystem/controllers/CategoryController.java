@@ -17,7 +17,6 @@ public class CategoryController {
     private final CategoryService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> getAll() {
         return ResponseEntity.ok(service.getAllCategories());
     }
@@ -29,20 +28,19 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
     public ResponseEntity<ResponseDTO> getById(@PathVariable final UUID id) {
         ResponseDTO categoryById = service.getCategoryById(id);
         return categoryById != null ? ResponseEntity.ok(categoryById) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> update(@RequestBody final CategoryDTO dto, @PathVariable final UUID id) {
         return ResponseEntity.ok(service.updateCategoryById(id, dto));
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> delete(@PathVariable final UUID id) {
         return ResponseEntity.ok(service.deleteCategoryById(id));
     }

@@ -47,11 +47,11 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = "password", nullable = false, length = 100)
     @ToString.Exclude
     private String password;
 
-    @Column(name = "password_hash", nullable = false, length = 60)
+    @Column(name = "password_hash", nullable = false, length = 100)
     private String passwordHash;
 
     @NotBlank(message = "PhoneNumber is required")

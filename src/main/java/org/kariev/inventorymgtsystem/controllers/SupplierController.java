@@ -18,13 +18,11 @@ public class SupplierController {
     private final SupplierService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> getAllSuppliers() {
         return ResponseEntity.ok(service.getAllSupplier());
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDTO> getSupplierById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getSupplierById(id));
     }
