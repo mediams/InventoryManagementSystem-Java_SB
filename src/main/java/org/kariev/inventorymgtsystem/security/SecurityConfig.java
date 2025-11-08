@@ -29,7 +29,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig {
@@ -54,7 +54,10 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html",
+                                "/api/v1/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/actuator/info",
                                 "/actuator/health"
                         ).permitAll()
                         .anyRequest().authenticated()
