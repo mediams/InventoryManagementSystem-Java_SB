@@ -9,8 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kariev</groupId>
-    <artifactId>InventoryMgtSystem</artifactId>
+    <artifactId>InventoryMGTSystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>InventoryMgtSystem</name>
     <description>InventoryMgtSystem</description>
     <properties>
